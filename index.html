@@ -1,306 +1,573 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ako sa obliecť do služby – Lučenec</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ako sa obliecť do služby</title>
 
-        body {
-            background: linear-gradient(135deg, #e0f2fe 0%, #f0f4f8 100%);
-            color: #102a43;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        .card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 460px;
-            border-radius: 20px;
-            box-shadow: 0 12px 30px rgba(16, 42, 67, 0.1);
-            padding: 28px 24px;
-            text-align: center;
-        }
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #142b49, #23618a, #58a4bd);
+    min-height: 100vh;
+    padding: 25px 15px;
+    color: white;
+}
 
-        .header {
-            margin-bottom: 20px;
-        }
+.container {
+    max-width: 850px;
+    margin: auto;
+}
 
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 6px;
-        }
+header {
+    text-align: center;
+    padding: 25px 10px;
+}
 
-        .location-date {
-            font-size: 0.92rem;
-            color: #64748b;
-            font-weight: 500;
-        }
+header h1 {
+    font-size: clamp(27px, 5vw, 40px);
+    margin-bottom: 10px;
+}
 
-        .weather-hero {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+header p {
+    color: #d4e8f4;
+    font-size: 16px;
+}
 
-        .weather-icon {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 8px;
-        }
+.date {
+    margin-top: 12px;
+    color: #c4e5f4;
+}
 
-        .weather-desc {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #334155;
-            margin-bottom: 14px;
-        }
+.card {
+    background: rgba(255,255,255,0.13);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 14px;
-        }
+.weather-main {
+    text-align: center;
+}
 
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+.weather-icon {
+    font-size: 75px;
+    margin: 12px;
+}
 
-        .stat-label {
-            font-size: 0.78rem;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+.temperature {
+    font-size: 65px;
+    font-weight: 700;
+}
 
-        .stat-value {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
+.description {
+    font-size: 21px;
+    margin: 8px 0;
+}
 
-        .advice-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            text-align: left;
-            margin-bottom: 20px;
-        }
+.location {
+    color: #cce9f7;
+    font-size: 16px;
+}
 
-        .advice-box {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            padding: 15px;
-            border-radius: 14px;
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-        }
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 25px;
+}
 
-        .advice-box.umbrella-yes {
-            background: #fef2f2;
-            border-color: #fecaca;
-        }
+.stat {
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 16px 8px;
+    text-align: center;
+}
 
-        .advice-box.umbrella-no {
-            background: #f0fdf4;
-            border-color: #bbf7d0;
-        }
+.stat-icon {
+    font-size: 27px;
+    margin-bottom: 8px;
+}
 
-        .advice-icon {
-            font-size: 1.8rem;
-            line-height: 1;
-        }
+.stat-label {
+    font-size: 12px;
+    color: #cce9f7;
+}
 
-        .advice-content h3 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #0f172a;
-        }
+.stat-value {
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 5px;
+}
 
-        .advice-content p {
-            font-size: 0.92rem;
-            line-height: 1.45;
-            color: #334155;
-        }
+h2 {
+    font-size: 21px;
+    margin-bottom: 18px;
+}
 
-        .refresh-btn {
-            width: 100%;
-            padding: 12px;
-            background: #0284c7;
-            color: #ffffff;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.15s ease;
-        }
+.recommendation {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 17px;
+    margin-top: 12px;
+}
 
-        .refresh-btn:hover {
-            background: #0369a1;
-        }
+.rec-icon {
+    font-size: 38px;
+}
 
-        .loading, .error {
-            padding: 30px 10px;
-            font-size: 1rem;
-            color: #475569;
-        }
+.rec-text h3 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
 
-        .error {
-            color: #b91c1c;
-        }
-    </style>
+.rec-text p {
+    color: #d8edf7;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.hourly {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.hour {
+    min-width: 85px;
+    text-align: center;
+    background: rgba(255,255,255,0.12);
+    padding: 14px 8px;
+    border-radius: 13px;
+}
+
+.hour .icon {
+    font-size: 26px;
+    margin: 10px 0;
+}
+
+.hour .temp {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.hour small {
+    color: #d4e8f4;
+}
+
+.status {
+    text-align: center;
+    padding: 15px;
+    color: #d8edf7;
+}
+
+.refresh {
+    display: block;
+    margin: 20px auto 5px;
+    background: #ffffff;
+    color: #16456a;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.refresh:hover {
+    background: #d5efff;
+}
+
+footer {
+    text-align: center;
+    color: #cce9f7;
+    font-size: 12px;
+    padding: 15px;
+}
+
+@media(max-width: 500px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+        padding: 18px;
+    }
+}
+</style>
 </head>
+
 <body>
+<div class="container">
+
+<header>
+    <h1>👔 Ako sa obliecť do služby</h1>
+    <p>Ranný meteorologický prehľad</p>
+    <div class="date" id="date">Načítavam dátum...</div>
+</header>
+
+<div class="card weather-main">
+    <div class="location">📍 Lučenec, Slovensko</div>
+    <div class="weather-icon" id="weatherIcon">🌤️</div>
+    <div class="temperature" id="temperature">--°</div>
+    <div class="description" id="description">Načítavam počasie...</div>
+    <div class="location">
+        Pocitová teplota: <strong id="feelsLike">--°C</strong>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-icon">🌡️</div>
+            <div class="stat-label">Min. / Max.</div>
+            <div class="stat-value" id="minmax">-- / --</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">🌧️</div>
+            <div class="stat-label">Pravdepodobnosť dažďa</div>
+            <div class="stat-value" id="rain">-- %</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">💨</div>
+            <div class="stat-label">Rýchlosť vetra</div>
+            <div class="stat-value" id="wind">-- km/h</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">💧</div>
+            <div class="stat-label">Vlhkosť vzduchu</div>
+            <div class="stat-value" id="humidity">-- %</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">☔</div>
+            <div class="stat-label">Zrážky</div>
+            <div class="stat-value" id="precipitation">-- mm</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">🌬️</div>
+            <div class="stat-label">Max. vietor dnes</div>
+            <div class="stat-value" id="maxwind">-- km/h</div>
+        </div>
+    </div>
+</div>
 
 <div class="card">
-    <div class="header">
-        <h1>Ako sa obliecť do služby</h1>
-        <div class="location-date" id="location-date">Lučenec • Načítavam dátum...</div>
+    <h2>🧥 Odporúčanie na oblečenie</h2>
+
+    <div class="recommendation">
+        <div class="rec-icon">👕</div>
+        <div class="rec-text">
+            <h3>Ako sa obliecť?</h3>
+            <p id="clothing">Vyhodnocujem vhodné oblečenie...</p>
+        </div>
     </div>
 
-    <div id="content">
-        <div class="loading">Načítavam aktuálnu predpoveď počasia pre Lučenec...</div>
+    <div class="recommendation">
+        <div class="rec-icon" id="umbrellaIcon">☂️</div>
+        <div class="rec-text">
+            <h3>Dáždnik</h3>
+            <p id="umbrella">Vyhodnocujem pravdepodobnosť dažďa...</p>
+        </div>
     </div>
 
-    <button class="refresh-btn" onclick="nacitajPocasie()">Aktualizovať predpoveď</button>
+    <div class="recommendation">
+        <div class="rec-icon">🧣</div>
+        <div class="rec-text">
+            <h3>Praktický tip</h3>
+            <p id="tip">Pripravujem odporúčanie...</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>🕒 Počasie počas dňa</h2>
+    <div class="hourly" id="hourly">
+        <div class="status">Načítavam hodinovú predpoveď...</div>
+    </div>
+</div>
+
+<div class="status" id="status">Aktualizujem meteorologické údaje...</div>
+
+<button class="refresh" onclick="loadWeather()">
+    🔄 Aktualizovať počasie
+</button>
+
+<footer>
+    Zdroj meteorologických údajov: Open-Meteo<br>
+    Automatická predpoveď pre Lučenec
+</footer>
+
 </div>
 
 <script>
-    // Súradnice pre Lučenec
-    const LAT = 48.3325;
-    const LON = 19.6671;
+const latitude = 48.3325;
+const longitude = 19.6671;
 
-    // Preklad WMO kódov počasia do slovenčiny a ikon
-    function ziskajPopisPociasia(code) {
-        if (code === 0) return { icon: "☀️", text: "Jasno" };
-        if (code === 1) return { icon: "🌤️", text: "Prevažne jasno" };
-        if (code === 2) return { icon: "⛅", text: "Polooblačno" };
-        if (code === 3) return { icon: "☁️", text: "Zamračené" };
-        if (code === 45 || code === 48) return { icon: "🌫️", text: "Hmla" };
-        if (code >= 51 && code <= 57) return { icon: "🌦️", text: "Mrholenie" };
-        if (code >= 61 && code <= 67) return { icon: "🌧️", text: "Dážď" };
-        if (code >= 71 && code <= 77) return { icon: "❄️", text: "Sneženie" };
-        if (code >= 80 && code <= 82) return { icon: "🌦️", text: "Prehánky" };
-        if (code >= 85 && code <= 86) return { icon: "🌨️", text: "Snehové prehánky" };
-        if (code >= 95) return { icon: "⛈️", text: "Búrka" };
-        return { icon: "🌡️", text: "Premenlivo" };
+const weatherTypes = {
+    0: ["Jasno", "☀️"],
+    1: ["Prevažne jasno", "🌤️"],
+    2: ["Polooblačno", "⛅"],
+    3: ["Zamračené", "☁️"],
+    45: ["Hmla", "🌫️"],
+    48: ["Mrznúca hmla", "🌫️"],
+    51: ["Slabé mrholenie", "🌦️"],
+    53: ["Mrholenie", "🌦️"],
+    55: ["Silné mrholenie", "🌧️"],
+    61: ["Slabý dážď", "🌧️"],
+    63: ["Dážď", "🌧️"],
+    65: ["Silný dážď", "🌧️"],
+    71: ["Slabé sneženie", "🌨️"],
+    73: ["Sneženie", "❄️"],
+    75: ["Silné sneženie", "❄️"],
+    77: ["Snehové zrná", "❄️"],
+    80: ["Prehánky", "🌦️"],
+    81: ["Dažďové prehánky", "🌧️"],
+    82: ["Silné prehánky", "⛈️"],
+    85: ["Snehové prehánky", "🌨️"],
+    86: ["Silné snehové prehánky", "❄️"],
+    95: ["Búrka", "⛈️"],
+    96: ["Búrka s krúpami", "⛈️"],
+    99: ["Silná búrka s krúpami", "⛈️"]
+};
+
+function getWeather(code) {
+    return weatherTypes[code] || ["Premenlivé počasie", "🌤️"];
+}
+
+function formatDate() {
+    return new Intl.DateTimeFormat("sk-SK", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "Europe/Bratislava"
+    }).format(new Date());
+}
+
+function recommendClothing(min, max, wind) {
+    let result = "";
+
+    if (max <= 0) {
+        result = "Veľmi teplá zimná bunda, čiapka, rukavice, šál a teplá obuv.";
+    } else if (max <= 7) {
+        result = "Zimná bunda, sveter, dlhé nohavice a uzavretá teplá obuv.";
+    } else if (max <= 13) {
+        result = "Prechodná bunda, mikina alebo sveter a dlhé nohavice.";
+    } else if (max <= 19) {
+        result = "Ľahšia bunda alebo mikina. Odporúčame vrstvené oblečenie.";
+    } else if (max <= 25) {
+        result = "Tričko alebo košeľa, ľahké nohavice. Pribaľ si tenkú vrstvu.";
+    } else {
+        result = "Ľahké, priedušné oblečenie. Nezabudni na ochranu pred slnkom.";
     }
 
-    // Odporúčanie oblečenia podľa teploty a vetra
-    function ziskajOdporucanieOblecenia(tMin, tMax, vietor) {
-        let rada = "";
-        let ikona = "🧥";
-
-        if (tMax <= 2) {
-            ikona = "🧥🧣";
-            rada = "Bude mrazivo. Obleč si teplý zimný kabát alebo vetrovku, sveter, hrubšie nohavice, čiapku, šál a rukavice.";
-        } else if (tMax <= 9) {
-            ikona = "🧥";
-            rada = "Je chladno. Vhodný je teplejší kabát alebo prechodná bunda, pod ňu sveter či sako. Ráno môže byť mrazivo, zíde sa aj šál.";
-        } else if (tMax <= 15) {
-            ikona = "🧥👔";
-            rada = "Chladnejšie počasie, ideálne na vrstvenie. Zvoľ sako alebo ľahší kabát/trenčkot a košeľu s dlhým rukávom či tenký sveter.";
-        } else if (tMax <= 21) {
-            ikona = "👔";
-            rada = "Príjemne sviežo. Stačí košeľa s dlhým rukávom alebo blúzka, prípadne ľahké sako či kardigán na ráno a podvečer.";
-        } else if (tMax <= 26) {
-            ikona = "👕";
-            rada = "Teplo. Obleč si ľahkú priedušnú košeľu, polokošeľu alebo šaty z prírodných materiálov. Sako nechaj doma.";
-        } else {
-            ikona = "😎👕";
-            rada = "Horúco! Zvoľ čo najvzdušnejšie svetlé oblečenie (ľan, bavlna), slnečné okuliare a nezabudni na fľašu s vodou.";
-        }
-
-        if (vietor >= 25) {
-            rada += " Pozor, bude fúkať silnejší vietor – zvoľ niečo, čo neprefúkne.";
-        }
-
-        if ((tMax - tMin) >= 11 && tMax > 10) {
-            rada += " Cez deň sa výrazne oteplí oproti ránu, obleč sa radšej vo vrstvách.";
-        }
-
-        return { ikona, rada };
+    if (min <= 8 && max - min >= 8) {
+        result += " Ráno bude výrazne chladnejšie než popoludní.";
     }
 
-    // Odporúčanie pre dáždnik
-    function ziskajOdporucanieDazdnik(pravdepodobnost, zrazkyMm, code) {
-        const dazdiveKody =;
-        
-        if (pravdepodobnost >= 45 || zrazkyMm >= 0.5 || dazdiveKody.includes(code)) {
-            return {
-                trieda: "umbrella-yes",
-                ikona: "☂️",
-                nadpis: "Dáždnik: Určite si ho zober!",
-                text: `Pravdepodobnosť zrážok je ${pravdepodobnost} % (úhrn cca ${zrazkyMm} mm). Počas dňa sa očakáva dážď alebo prehánky.`
-            };
-        } else if (pravdepodobnost >= 20) {
-            return {
-                trieda: "umbrella-yes",
-                ikona: "🌂",
-                nadpis: "Dáždnik: Radšej pribaľ do tašky",
-                text: `Pravdepodobnosť zrážok je ${pravdepodobnost} %. Skladací dáždnik pre istotu nezaberie veľa miesta.`
-            };
-        } else {
-            return {
-                trieda: "umbrella-no",
-                ikona: "☀️",
-                nadpis: "Dáždnik: Netreba",
-                text: `Pravdepodobnosť zrážok je len ${pravdepodobnost} %. Dážď by ťa dnes nemal prekvapiť.`
-            };
-        }
+    if (wind >= 30) {
+        result += " Pozor na silný vietor – zvoľ vetruodolnú bundu.";
     }
 
-    async function nacitajPocasie() {
-        const contentDiv = document.getElementById("content");
-        const dateDiv = document.getElementById("location-date");
+    return result;
+}
 
-        // Zobrazenie aktuálneho slovenského dátumu
-        const dnes = new Date();
-        const formatovanyDatum = dnes.toLocaleDateString("sk-SK", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
+function recommendTip(min, max, wind, code) {
+    if (code >= 95) {
+        return "Očakávajú sa búrky. Sleduj vývoj počasia a vyhni sa otvoreným priestranstvám.";
+    }
+
+    if (min <= 3) {
+        return "Ráno môže byť chladno, prípadne sa môžu tvoriť prízemné mrazy.";
+    }
+
+    if (max >= 27) {
+        return "Nezabudni na dostatok tekutín a ochranu pred slnkom.";
+    }
+
+    if (wind >= 30) {
+        return "Silnejší vietor môže znižovať pocitovú teplotu.";
+    }
+
+    if (max - min >= 10) {
+        return "Počas dňa sa výrazne oteplí. Oplatí sa obliecť vo vrstvách.";
+    }
+
+    return "Pred odchodom do služby si skontroluj aj aktuálnu predpoveď.";
+}
+
+async function loadWeather() {
+    const status = document.getElementById("status");
+
+    status.textContent = "⏳ Načítavam aktuálne meteorologické údaje...";
+
+    try {
+        const params = new URLSearchParams({
+            latitude,
+            longitude,
+            current: [
+                "temperature_2m",
+                "relative_humidity_2m",
+                "apparent_temperature",
+                "is_day",
+                "precipitation",
+                "weather_code",
+                "wind_speed_10m"
+            ].join(","),
+            hourly: [
+                "temperature_2m",
+                "precipitation_probability",
+                "precipitation",
+                "weather_code"
+            ].join(","),
+            daily: [
+                "temperature_2m_max",
+                "temperature_2m_min",
+                "precipitation_probability_max",
+                "precipitation_sum",
+                "wind_speed_10m_max",
+                "weather_code"
+            ].join(","),
+            forecast_days: 1,
+            timezone: "Europe/Bratislava"
         });
-        dateDiv.textContent = `Lučenec • ${formatovanyDatum}`;
 
-        contentDiv.innerHTML = `<div class="loading">Sťahujem aktuálne dáta pre Lučenec...</div>`;
+        const response = await fetch(
+            "https://api.open-meteo.com/v1/forecast?" + params
+        );
 
-        try {
-            const url = `https://open-meteo.com{LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&timezone=Europe%2FBratislava&forecast_days=1`;
-            
-            const odpoved = await fetch(url);
-            if (!odpoved.ok) throw new Error("Chyba pri sťahovaní dát.");
-            
-            const data = await odpoved.json();
-            const d = data.daily;
+        if (!response.ok) {
+            throw new Error("Nepodarilo sa načítať predpoveď.");
+        }
 
-            const code = d.weather_code[0];
-            const tMin = Math.round(d.temperature_2m_min[0]);
-            const tMax = Math.round(d.temperature_2m_max[0]);
-            const zrazky = d.precipitation_sum[0];
-            const pravdepodobnost = d.precipitation_probability_max[0] ?? 0;
-            const vietor = Math.round(d.wind_speed_10m_max[0]);
+        const data = await response.json();
 
-            const pocasieInfo = ziskajPopisPociasia(code);
+        const current = data.current;
+        const daily = data.daily;
+        const hourly = data.hourly;
+
+        const temp = Math.round(current.temperature_2m);
+        const feels = Math.round(current.apparent_temperature);
+        const min = Math.round(daily.temperature_2m_min[0]);
+        const max = Math.round(daily.temperature_2m_max[0]);
+        const rain = daily.precipitation_probability_max[0] ?? 0;
+        const precipitation = daily.precipitation_sum[0];
+        const wind = current.wind_speed_10m;
+        const maxWind = daily.wind_speed_10m_max[0];
+        const humidity = current.relative_humidity_2m;
+        const code = current.weather_code;
+
+        const weather = getWeather(code);
+
+        document.getElementById("date").textContent = formatDate();
+        document.getElementById("temperature").textContent = temp + "°C";
+        document.getElementById("feelsLike").textContent = feels + "°C";
+        document.getElementById("weatherIcon").textContent =
+            current.is_day ? weather[1] : "🌙";
+        document.getElementById("description").textContent = weather[0];
+
+        document.getElementById("minmax").textContent =
+            min + "° / " + max + "°";
+
+        document.getElementById("rain").textContent = rain + " %";
+        document.getElementById("wind").textContent =
+            Math.round(wind) + " km/h";
+
+        document.getElementById("humidity").textContent =
+            humidity + " %";
+
+        document.getElementById("precipitation").textContent =
+            precipitation + " mm";
+
+        document.getElementById("maxwind").textContent =
+            Math.round(maxWind) + " km/h";
+
+        document.getElementById("clothing").textContent =
+            recommendClothing(min, max, maxWind);
+
+        const umbrellaNeeded =
+            rain >= 40 || precipitation >= 0.5;
+
+        document.getElementById("umbrellaIcon").textContent =
+            umbrellaNeeded ? "☂️" : "🌂";
+
+        document.getElementById("umbrella").textContent =
+            umbrellaNeeded
+            ? "ÁNO – odporúčame vziať si dáždnik. Pravdepodobnosť zrážok je " + rain + " %."
+            : "NIE JE NEVYHNUTNÝ – pravdepodobnosť zrážok je nízka. Pre istotu sleduj oblohu.";
+
+        document.getElementById("tip").textContent =
+            recommendTip(min, max, maxWind, code);
+
+        // Hodinová predpoveď
+        const today = new Date().toLocaleDateString(
+            "sv-SE",
+            { timeZone: "Europe/Bratislava" }
+        );
+
+        const hours = hourly.time
+            .map((time, i) => ({ time, i }))
+            .filter(item => item.time.startsWith(today))
+            .filter(item => {
+                const hour = Number(item.time.substring(11, 13));
+                return hour >= 6 && hour <= 23 && hour % 3 === 0;
+            });
+
+        document.getElementById("hourly").innerHTML =
+            hours.map(item => {
+                const i = item.i;
+                const hour = item.time.substring(11, 16);
+                const w = getWeather(hourly.weather_code[i]);
+                const t = Math.round(hourly.temperature_2m[i]);
+                const r = hourly.precipitation_probability[i] ?? 0;
+
+                return `
+                    <div class="hour">
+                        <small>${hour}</small>
+                        <div class="icon">${w[1]}</div>
+                        <div class="temp">${t}°</div>
+                        <small>🌧️ ${r}%</small>
+                    </div>
+                `;
+            }).join("");
+
+        status.textContent =
+            "✅ Údaje aktualizované: " +
+            new Date().toLocaleTimeString("sk-SK", {
+                hour: "2-digit",
+                minute: "2-digit",
+                timeZone: "Europe/Bratislava"
+            });
+
+    } catch (error) {
+        console.error(error);
+        status.textContent =
+            "⚠️ Počasie sa nepodarilo načítať. Skontroluj internetové pripojenie a skús to znova.";
+    }
+}
+
+// Automatické načítanie po otvorení stránky
+loadWeather();
+
+// Automatická aktualizácia každých 15 minút
+setInterval(loadWeather, 15 * 60 * 1000);
+
+</script>
+</body>
+</html>
