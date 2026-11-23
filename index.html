@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ako sa obliecť do služby – Lučenec</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f4f8 100%);
+            color: #102a43;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 460px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(16, 42, 67, 0.1);
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+
+        .location-date {
+            font-size: 0.92rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .weather-hero {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .weather-icon {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .weather-desc {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 14px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .advice-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .advice-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 15px;
+            border-radius: 14px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+        }
+
+        .advice-box.umbrella-yes {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .advice-box.umbrella-no {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+
+        .advice-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .advice-content h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #0f172a;
+        }
+
+        .advice-content p {
+            font-size: 0.92rem;
+            line-height: 1.45;
+            color: #334155;
+        }
+
+        .refresh-btn {
+            width: 100%;
+            padding: 12px;
+            background: #0284c7;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #0369a1;
+        }
+
+        .loading, .error {
+            padding: 30px 10px;
+            font-size: 1rem;
+            color: #475569;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1>Ako sa obliecť do služby</h1>
+        <div class="location-date" id="location-date">Lučenec • Načítavam dátum...</div>
+    </div>
+
+    <div id="content">
+        <div class="loading">Načítavam aktuálnu predpoveď počasia pre Lučenec...</div>
+    </div>
+
+    <button class="refresh-btn" onclick="nacitajPocasie()">Aktualizovať predpoveď</button>
+</div>
+
+<script>
+    // Súradnice pre Lučenec
+    const LAT = 48.3325;
+    const LON = 19.6671;
+
+    // Preklad WMO kódov počasia do slovenčiny a ikon
+    function ziskajPopisPociasia(code) {
+        if (code === 0) return { icon: "☀️", text: "Jasno" };
+        if (code === 1) return { icon: "🌤️", text: "Prevažne jasno" };
+        if (code === 2) return { icon: "⛅", text: "Polooblačno" };
+        if (code === 3) return { icon: "☁️", text: "Zamračené" };
+        if (code === 45 || code === 48) return { icon: "🌫️", text: "Hmla" };
+        if (code >= 51 && code <= 57) return { icon: "🌦️", text: "Mrholenie" };
+        if (code >= 61 && code <= 67) return { icon: "🌧️", text: "Dážď" };
+        if (code >= 71 && code <= 77) return { icon: "❄️", text: "Sneženie" };
+        if (code >= 80 && code <= 82) return { icon: "🌦️", text: "Prehánky" };
+        if (code >= 85 && code <= 86) return { icon: "🌨️", text: "Snehové prehánky" };
+        if (code >= 95) return { icon: "⛈️", text: "Búrka" };
+        return { icon: "🌡️", text: "Premenlivo" };
+    }
+
+    // Odporúčanie oblečenia podľa teploty a vetra
+    function ziskajOdporucanieOblecenia(tMin, tMax, vietor) {
+        let rada = "";
+        let ikona = "🧥";
+
+        if (tMax <= 2) {
+            ikona = "🧥🧣";
+            rada = "Bude mrazivo. Obleč si teplý zimný kabát alebo vetrovku, sveter, hrubšie nohavice, čiapku, šál a rukavice.";
+        } else if (tMax <= 9) {
+            ikona = "🧥";
+            rada = "Je chladno. Vhodný je teplejší kabát alebo prechodná bunda, pod ňu sveter či sako. Ráno môže byť mrazivo, zíde sa aj šál.";
+        } else if (tMax <= 15) {
+            ikona = "🧥👔";
+            rada = "Chladnejšie počasie, ideálne na vrstvenie. Zvoľ sako alebo ľahší kabát/trenčkot a košeľu s dlhým rukávom či tenký sveter.";
+        } else if (tMax <= 21) {
+            ikona = "👔";
+            rada = "Príjemne sviežo. Stačí košeľa s dlhým rukávom alebo blúzka, prípadne ľahké sako či kardigán na ráno a podvečer.";
+        } else if (tMax <= 26) {
+            ikona = "👕";
+            rada = "Teplo. Obleč si ľahkú priedušnú košeľu, polokošeľu alebo šaty z prírodných materiálov. Sako nechaj doma.";
+        } else {
+            ikona = "😎👕";
+            rada = "Horúco! Zvoľ čo najvzdušnejšie svetlé oblečenie (ľan, bavlna), slnečné okuliare a nezabudni na fľašu s vodou.";
+        }
+
+        if (vietor >= 25) {
+            rada += " Pozor, bude fúkať silnejší vietor – zvoľ niečo, čo neprefúkne.";
+        }
+
+        if ((tMax - tMin) >= 11 && tMax > 10) {
+            rada += " Cez deň sa výrazne oteplí oproti ránu, obleč sa radšej vo vrstvách.";
+        }
+
+        return { ikona, rada };
+    }
+
+    // Odporúčanie pre dáždnik
+    function ziskajOdporucanieDazdnik(pravdepodobnost, zrazkyMm, code) {
+        const dazdiveKody =;
+        
+        if (pravdepodobnost >= 45 || zrazkyMm >= 0.5 || dazdiveKody.includes(code)) {
+            return {
+                trieda: "umbrella-yes",
+                ikona: "☂️",
+                nadpis: "Dáždnik: Určite si ho zober!",
+                text: `Pravdepodobnosť zrážok je ${pravdepodobnost} % (úhrn cca ${zrazkyMm} mm). Počas dňa sa očakáva dážď alebo prehánky.`
+            };
+        } else if (pravdepodobnost >= 20) {
+            return {
+                trieda: "umbrella-yes",
+                ikona: "🌂",
+                nadpis: "Dáždnik: Radšej pribaľ do tašky",
+                text: `Pravdepodobnosť zrážok je ${pravdepodobnost} %. Skladací dáždnik pre istotu nezaberie veľa miesta.`
+            };
+        } else {
+            return {
+                trieda: "umbrella-no",
+                ikona: "☀️",
+                nadpis: "Dáždnik: Netreba",
+                text: `Pravdepodobnosť zrážok je len ${pravdepodobnost} %. Dážď by ťa dnes nemal prekvapiť.`
+            };
+        }
+    }
+
+    async function nacitajPocasie() {
+        const contentDiv = document.getElementById("content");
+        const dateDiv = document.getElementById("location-date");
+
+        // Zobrazenie aktuálneho slovenského dátumu
+        const dnes = new Date();
+        const formatovanyDatum = dnes.toLocaleDateString("sk-SK", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+        dateDiv.textContent = `Lučenec • ${formatovanyDatum}`;
+
+        contentDiv.innerHTML = `<div class="loading">Sťahujem aktuálne dáta pre Lučenec...</div>`;
+
+        try {
+            const url = `https://open-meteo.com{LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&timezone=Europe%2FBratislava&forecast_days=1`;
+            
+            const odpoved = await fetch(url);
+            if (!odpoved.ok) throw new Error("Chyba pri sťahovaní dát.");
+            
+            const data = await odpoved.json();
+            const d = data.daily;
+
+            const code = d.weather_code[0];
+            const tMin = Math.round(d.temperature_2m_min[0]);
+            const tMax = Math.round(d.temperature_2m_max[0]);
+            const zrazky = d.precipitation_sum[0];
+            const pravdepodobnost = d.precipitation_probability_max[0] ?? 0;
+            const vietor = Math.round(d.wind_speed_10m_max[0]);
+
+            const pocasieInfo = ziskajPopisPociasia(code);
